@@ -17,11 +17,18 @@ def get_kpis(db: Session, user_id: int):
     # Total Invoices
     total_invoices = db.query(models.Invoice).filter(models.Invoice.owner_id == user_id).count()
 
+    # Pending Settlements (PROCESSING status)
+    pending_settlements_count = db.query(models.Transaction).join(models.Invoice)\
+        .filter(models.Invoice.owner_id == user_id, models.Transaction.settlement_status == 'PROCESSING')\
+        .count()
+
     return {
         "total_revenue": float(total_revenue),
         "outstanding_amount": float(outstanding_amount),
-        "total_invoices": total_invoices
+        "total_invoices": total_invoices,
+        "pending_settlements_count": pending_settlements_count
     }
+
 
 def get_monthly_revenue(db: Session, user_id: int):
     # Aggregate revenue by month using Transaction processed_at

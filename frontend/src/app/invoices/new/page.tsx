@@ -19,6 +19,7 @@ export default function NewInvoicePage() {
     const [clients, setClients] = useState<Client[]>([]);
     const [clientId, setClientId] = useState('');
     const [dueDate, setDueDate] = useState('');
+    const [currency, setCurrency] = useState('USD');
     const [items, setItems] = useState<InvoiceItem[]>([{ description: '', quantity: 1, unit_price: 0 }]);
     const router = useRouter();
 
@@ -53,12 +54,14 @@ export default function NewInvoicePage() {
         return items.reduce((sum, item) => sum + (item.quantity * item.unit_price), 0);
     };
 
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
             await createInvoice({
                 client_id: parseInt(clientId),
                 due_date: dueDate,
+                currency: currency,
                 items: items
             });
             router.push('/invoices');
@@ -72,7 +75,7 @@ export default function NewInvoicePage() {
             <div className="max-w-3xl mx-auto bg-white rounded-lg shadow-md p-6">
                 <h1 className="text-2xl font-bold mb-6">Create New Invoice</h1>
                 <form onSubmit={handleSubmit} className="space-y-6">
-                    <div className="grid grid-cols-2 gap-6">
+                    <div className="grid grid-cols-3 gap-6">
                         <div>
                             <label className="block text-sm font-medium text-gray-700">Client</label>
                             <select
@@ -88,6 +91,19 @@ export default function NewInvoicePage() {
                             </select>
                         </div>
                         <div>
+                            <label className="block text-sm font-medium text-gray-700">Currency</label>
+                            <select
+                                required
+                                value={currency}
+                                onChange={(e) => setCurrency(e.target.value)}
+                                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                            >
+                                <option value="USD">USD ($)</option>
+                                <option value="EUR">EUR (€)</option>
+                                <option value="GBP">GBP (£)</option>
+                            </select>
+                        </div>
+                        <div>
                             <label className="block text-sm font-medium text-gray-700">Due Date</label>
                             <input
                                 type="date"
@@ -98,6 +114,7 @@ export default function NewInvoicePage() {
                             />
                         </div>
                     </div>
+
 
                     <div>
                         <div className="flex justify-between items-center mb-4">

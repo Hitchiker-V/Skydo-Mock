@@ -7,7 +7,12 @@ const api = axios.create({
   },
 });
 
-export default api;
+export const getMe = async () => {
+  const token = localStorage.getItem('token');
+  return api.get('/users/me', {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+};
 
 export const getClients = async () => {
   const token = localStorage.getItem('token');
@@ -69,8 +74,8 @@ export const getPublicInvoice = async (paymentLinkId: string) => {
   return api.get(`/invoices/public/${paymentLinkId}`);
 };
 
-export const triggerMockPayment = async (paymentLinkId: string, status: string) => {
-  return api.post('/mock/payments/trigger-payment', { payment_link_id: paymentLinkId, status });
+export const triggerMockPayment = async (paymentLinkId: string, status: string, senderName?: string) => {
+  return api.post('/mock/payments/trigger-payment', { payment_link_id: paymentLinkId, status, sender_name: senderName });
 };
 
 export const getDashboardData = async () => {
@@ -97,3 +102,40 @@ export const downloadFiraPDF = async (invoiceId: number) => {
   if (!response.ok) throw new Error('Download failed');
   return response.blob();
 };
+
+export const getMyVirtualAccounts = async () => {
+  const token = localStorage.getItem('token');
+  return api.get('/users/me/virtual-accounts', {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+};
+
+export const getInvoiceTransaction = async (invoiceId: number) => {
+  const token = localStorage.getItem('token');
+  return api.get(`/invoices/${invoiceId}/transaction`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+};
+
+export const processSettlements = async () => {
+  const token = localStorage.getItem('token');
+  return api.post('/mock/payments/process-settlements', {}, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+};
+
+export const requestVirtualAccount = async (currency: string) => {
+  const token = localStorage.getItem('token');
+  return api.post('/users/me/virtual-accounts', { currency }, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+};
+
+export const updateUserProfile = async (profile: { business_name: string; gstin: string; business_address: string }) => {
+  const token = localStorage.getItem('token');
+  return api.put('/users/me/profile', profile, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+};
+
+export default api;

@@ -15,9 +15,19 @@ interface Invoice {
     id: number;
     status: string;
     due_date: string;
+    currency: string;
     total_amount: number;
     items: InvoiceItem[];
 }
+
+const getCurrencySymbol = (currency: string) => {
+    switch (currency) {
+        case 'EUR': return '€';
+        case 'GBP': return '£';
+        default: return '$';
+    }
+};
+
 
 export default function PublicPaymentPage() {
     const { paymentLinkId } = useParams();
@@ -44,13 +54,14 @@ export default function PublicPaymentPage() {
     const handlePayment = async (status: 'success' | 'failed') => {
         setPaymentStatus('processing');
         try {
-            await triggerMockPayment(paymentLinkId as string, status);
+            await triggerMockPayment(paymentLinkId as string, status, status === 'success' ? 'Global Services LLC' : undefined);
             setPaymentStatus(status);
         } catch (error) {
             console.error('Payment failed', error);
             setPaymentStatus('failed');
         }
     };
+
 
     if (loading) return <div className="min-h-screen flex items-center justify-center bg-gray-50">Loading...</div>;
     if (!invoice) return <div className="min-h-screen flex items-center justify-center bg-gray-50">Invoice not found</div>;
@@ -65,7 +76,7 @@ export default function PublicPaymentPage() {
                         </svg>
                     </div>
                     <h2 className="text-2xl font-bold text-gray-900 mb-2">Payment Successful!</h2>
-                    <p className="text-gray-600">Thank you for your payment of ${invoice.total_amount}.</p>
+                    <p className="text-gray-600">Thank you for your payment of {getCurrencySymbol(invoice.currency)}{invoice.total_amount}.</p>
                 </div>
             </div>
         );
@@ -96,9 +107,9 @@ export default function PublicPaymentPage() {
                                 <tr key={item.id}>
                                     <td className="py-3 text-sm text-gray-900">{item.description}</td>
                                     <td className="py-3 text-sm text-gray-500 text-right">{item.quantity}</td>
-                                    <td className="py-3 text-sm text-gray-500 text-right">${item.unit_price}</td>
+                                    <td className="py-3 text-sm text-gray-500 text-right">{getCurrencySymbol(invoice.currency)}{item.unit_price}</td>
                                     <td className="py-3 text-sm text-gray-900 text-right font-medium">
-                                        ${(item.quantity * item.unit_price).toFixed(2)}
+                                        {getCurrencySymbol(invoice.currency)}{(item.quantity * item.unit_price).toFixed(2)}
                                     </td>
                                 </tr>
                             ))}
@@ -106,14 +117,24 @@ export default function PublicPaymentPage() {
                         <tfoot>
                             <tr>
                                 <td colSpan={3} className="pt-4 text-right text-lg font-bold text-gray-900">Total Due</td>
-                                <td className="pt-4 text-right text-2xl font-bold text-indigo-600">${invoice.total_amount}</td>
+                                <td className="pt-4 text-right text-2xl font-bold text-indigo-600">{getCurrencySymbol(invoice.currency)}{invoice.total_amount}</td>
                             </tr>
                         </tfoot>
                     </table>
 
                     <div className="border-t border-gray-200 pt-6">
                         <h3 className="text-lg font-medium text-gray-900 mb-4">Pay with Mock Provider</h3>
+
+                        {paymentStatus === 'failed' && (
+                            <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-md">
+                                <p className="text-sm text-red-600 font-medium">
+                                    ❌ Payment Failed. Please try again or use a different payment method.
+                                </p>
+                            </div>
+                        )}
+
                         <div className="flex space-x-4">
+
                             <button
                                 onClick={() => handlePayment('success')}
                                 disabled={paymentStatus === 'processing'}

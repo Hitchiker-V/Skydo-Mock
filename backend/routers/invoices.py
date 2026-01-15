@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from typing import List
+from typing import List, Optional
 import crud
 import schemas
 import models
@@ -41,3 +41,19 @@ def read_invoice(invoice_id: int, db: Session = Depends(get_db), current_user: m
     if db_invoice is None:
         raise HTTPException(status_code=404, detail="Invoice not found")
     return db_invoice
+
+@router.get("/{invoice_id}/transaction", response_model=Optional[schemas.TransactionDetail])
+def get_invoice_transaction(invoice_id: int, db: Session = Depends(get_db), current_user: models.User = Depends(auth.get_current_user)):
+    """Get the transaction details (FX breakdown) for an invoice."""
+    # Verify invoice belongs to user
+    db_invoice = crud.get_invoice(db, invoice_id=invoice_id, user_id=current_user.id)
+    if db_invoice is None:
+        raise HTTPException(status_code=404, detail="Invoice not found")
+    
+    # Get transaction for this invoice
+    transaction = db.query(models.Transaction).filter(
+        models.Transaction.invoice_id == invoice_id
+    ).first()
+    
+    return transaction
+

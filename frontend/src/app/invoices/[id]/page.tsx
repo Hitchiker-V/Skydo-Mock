@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
-import { getInvoice, downloadInvoicePDF, downloadFiraPDF } from '@/services/api';
+import { getInvoice, downloadInvoicePDF, downloadFiraPDF, getInvoiceTransaction } from '@/services/api';
 import Link from 'next/link';
 
 interface InvoiceItem {
@@ -23,32 +23,76 @@ interface Invoice {
     id: number;
     status: string;
     due_date: string;
+    currency: string;
     total_amount: number;
     payment_link_id: string;
     client: Client;
     items: InvoiceItem[];
 }
 
+const getCurrencySymbol = (currency: string) => {
+    switch (currency) {
+        case 'EUR': return '€';
+        case 'GBP': return '£';
+        default: return '$';
+    }
+};
+
+
+interface Transaction {
+    id: number;
+    sender_name: string | null;
+    principal_amount: number | null;
+    currency: string | null;
+    fx_rate: number | null;
+    flat_fee_usd: number | null;
+    gst_on_fee_inr: number | null;
+    net_payout_inr: number | null;
+    settlement_status: string | null;
+}
+
 export default function InvoiceDetailPage() {
     const { id } = useParams();
     const [invoice, setInvoice] = useState<Invoice | null>(null);
+    const [transaction, setTransaction] = useState<Transaction | null>(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const fetchInvoice = async () => {
+        const fetchData = async () => {
             try {
-                const response = await getInvoice(Number(id));
-                setInvoice(response.data);
+                const invoiceResponse = await getInvoice(Number(id));
+                setInvoice(invoiceResponse.data);
+
+                // Fetch transaction if invoice is paid
+                if (invoiceResponse.data.status === 'paid') {
+                    try {
+                        const txResponse = await getInvoiceTransaction(Number(id));
+                        setTransaction(txResponse.data);
+                    } catch {
+                        // No transaction found
+                    }
+                }
             } catch (error) {
                 console.error('Failed to fetch invoice', error);
             } finally {
                 setLoading(false);
             }
         };
+
         if (id) {
-            fetchInvoice();
+            fetchData();
+
+            // Set up polling if the invoice is not paid yet
+            const interval = setInterval(() => {
+                if (invoice?.status !== 'paid') {
+                    fetchData();
+                }
+            }, 3000); // Poll every 3 seconds
+
+            return () => clearInterval(interval);
         }
-    }, [id]);
+    }, [id, invoice?.status]);
+
 
     if (loading) return <div className="p-8">Loading...</div>;
     if (!invoice) return <div className="p-8">Invoice not found</div>;
@@ -60,7 +104,7 @@ export default function InvoiceDetailPage() {
                     <div className="flex justify-between items-start">
                         <div>
                             <h1 className="text-3xl font-bold text-gray-900">Invoice #{invoice.id}</h1>
-                            <p className="text-sm text-gray-500 mt-1">Due Date: {invoice.due_date}</p>
+                            <p className="text-sm text-gray-500 mt-1">Due Date: {invoice.due_date} ({invoice.currency})</p>
                             <div className="mt-4 flex space-x-3">
                                 <button
                                     onClick={async () => {
@@ -162,21 +206,79 @@ export default function InvoiceDetailPage() {
                                 <tr key={item.id}>
                                     <td className="py-3 text-sm text-gray-900">{item.description}</td>
                                     <td className="py-3 text-sm text-gray-500 text-right">{item.quantity}</td>
-                                    <td className="py-3 text-sm text-gray-500 text-right">${item.unit_price}</td>
+                                    <td className="py-3 text-sm text-gray-500 text-right">{getCurrencySymbol(invoice.currency)}{item.unit_price}</td>
                                     <td className="py-3 text-sm text-gray-900 text-right font-medium">
-                                        ${(item.quantity * item.unit_price).toFixed(2)}
+                                        {getCurrencySymbol(invoice.currency)}{(item.quantity * item.unit_price).toFixed(2)}
                                     </td>
                                 </tr>
                             ))}
                         </tbody>
                         <tfoot>
                             <tr>
-                                <td colSpan={3} className="pt-4 text-right text-sm font-medium text-gray-500">Total Amount</td>
-                                <td className="pt-4 text-right text-xl font-bold text-gray-900">${invoice.total_amount}</td>
+                                <td className="pt-4 text-right text-sm font-medium text-gray-500">Total Amount</td>
+                                <td className="pt-4 text-right text-xl font-bold text-gray-900">{getCurrencySymbol(invoice.currency)}{invoice.total_amount}</td>
                             </tr>
                         </tfoot>
                     </table>
                 </div>
+
+                {/* FX Breakdown Section - V1 Treasury Details */}
+                {invoice.status === 'paid' && transaction && (
+                    <div className="px-8 py-6 bg-gradient-to-r from-green-50 to-emerald-50 border-t border-green-200">
+                        <h3 className="text-lg font-semibold text-green-800 mb-4 flex items-center">
+                            <span className="mr-2">💰</span> Settlement Details
+                            <span className={`ml-3 px-2 py-1 text-xs rounded-full ${transaction.settlement_status === 'SETTLED'
+                                ? 'bg-green-200 text-green-800'
+                                : 'bg-yellow-200 text-yellow-800'
+                                }`}>
+                                {transaction.settlement_status}
+                            </span>
+                        </h3>
+
+                        {transaction.sender_name && (
+                            <p className="text-sm text-gray-600 mb-4">
+                                Received from: <span className="font-medium text-gray-900">{transaction.sender_name}</span>
+                            </p>
+                        )}
+
+                        <div className="bg-white rounded-lg p-4 shadow-sm">
+                            <table className="w-full text-sm">
+                                <tbody className="divide-y divide-gray-100">
+                                    <tr>
+                                        <td className="py-2 text-gray-600">Principal Received</td>
+                                        <td className="py-2 text-right font-medium text-gray-900">
+                                            ${Number(transaction.principal_amount).toFixed(2)} {transaction.currency}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td className="py-2 text-gray-600">Flat Fee</td>
+                                        <td className="py-2 text-right font-medium text-red-600">
+                                            -${Number(transaction.flat_fee_usd).toFixed(2)}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td className="py-2 text-gray-600">FX Rate (Locked)</td>
+                                        <td className="py-2 text-right font-medium text-gray-900">
+                                            ₹{Number(transaction.fx_rate).toFixed(4)} / {transaction.currency}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td className="py-2 text-gray-600">GST (18% on fee)</td>
+                                        <td className="py-2 text-right font-medium text-red-600">
+                                            -₹{Number(transaction.gst_on_fee_inr).toFixed(2)}
+                                        </td>
+                                    </tr>
+                                    <tr className="bg-green-50">
+                                        <td className="py-3 text-green-800 font-semibold">Net Settlement</td>
+                                        <td className="py-3 text-right text-xl font-bold text-green-700">
+                                            ₹{Number(transaction.net_payout_inr).toLocaleString('en-IN', { minimumFractionDigits: 2 })}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                )}
 
                 <div className="bg-gray-50 px-8 py-4 border-t border-gray-200 flex justify-end">
                     <Link href="/invoices" className="text-indigo-600 hover:text-indigo-900 font-medium">

@@ -42,9 +42,15 @@ def download_fira(invoice_id: int, db: Session = Depends(get_db), current_user: 
     if invoice.status != "paid":
         raise HTTPException(status_code=400, detail="FIRA is only available for paid invoices")
     
-    pdf_buffer = pdf_generator.generate_fira_pdf(invoice)
+    # Fetch transaction details for FX breakdown
+    transaction = db.query(models.Transaction).filter(
+        models.Transaction.invoice_id == invoice.id
+    ).first()
+    
+    pdf_buffer = pdf_generator.generate_fira_pdf(invoice, transaction)
     return Response(
         content=pdf_buffer.getvalue(),
         media_type="application/pdf",
         headers={"Content-Disposition": f"attachment; filename=fira_{invoice.id}.pdf"}
     )
+

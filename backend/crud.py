@@ -57,10 +57,12 @@ def create_invoice(db: Session, invoice: schemas.InvoiceCreate, user_id: int):
     db_invoice = models.Invoice(
         due_date=invoice.due_date,
         client_id=invoice.client_id,
+        currency=invoice.currency,
         owner_id=user_id,
         total_amount=total_amount,
         payment_link_id=payment_link_id
     )
+
     db.add(db_invoice)
     db.commit()
     db.refresh(db_invoice)
@@ -93,3 +95,61 @@ def create_transaction(db: Session, transaction: schemas.TransactionCreate):
 
 def get_invoice_by_link_id(db: Session, payment_link_id: str):
     return db.query(models.Invoice).filter(models.Invoice.payment_link_id == payment_link_id).first()
+
+# --- Virtual Account CRUD ---
+def create_virtual_account(db: Session, user_id: int, va_data: dict):
+    """Create a new Virtual Account for a user."""
+    db_va = models.VirtualAccount(user_id=user_id, **va_data)
+    db.add(db_va)
+    db.commit()
+    db.refresh(db_va)
+    return db_va
+
+def get_virtual_accounts_by_user(db: Session, user_id: int):
+    """Get all Virtual Accounts for a user."""
+    return db.query(models.VirtualAccount).filter(models.VirtualAccount.user_id == user_id).all()
+
+def provision_virtual_account(db: Session, user_id: int, currency: str):
+    """Provision a Virtual Account for a specific currency."""
+    import secrets
+    
+    # Configuration for different currency corridors
+    VA_CONFIGS = {
+        "USD": {
+            "bank_name": "Community Federal Savings Bank",
+            "routing_code": "026073150",
+            "provider": "Currencycloud",
+            "prefix": "VA"
+        },
+        "EUR": {
+            "bank_name": "Banking Circle",
+            "routing_code": f"BE{secrets.token_hex(10).upper()}", # IBAN mock
+            "provider": "Banking Circle",
+            "prefix": "EU"
+        },
+        "GBP": {
+            "bank_name": "Barclays Bank UK",
+            "routing_code": "20-45-45", # Sort Code mock
+            "provider": "Currencycloud",
+            "prefix": "GB"
+        }
+    }
+    
+    config = VA_CONFIGS.get(currency.upper())
+    if not config:
+        return None
+        
+    va_data = {
+        "currency": currency.upper(),
+        "bank_name": config["bank_name"],
+        "account_number": f"{config['prefix']}{secrets.token_hex(6).upper()}",
+        "routing_code": config["routing_code"],
+        "provider": config["provider"]
+    }
+    return create_virtual_account(db, user_id, va_data)
+
+def provision_default_virtual_account(db: Session, user_id: int):
+    """Provision a default USD Virtual Account for a new user."""
+    return provision_virtual_account(db, user_id, "USD")
+
+
