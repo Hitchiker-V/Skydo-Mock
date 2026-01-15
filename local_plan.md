@@ -2,18 +2,21 @@
 
 ## 1. Overview
 
+Skydo is a platform designed for Indian freelancers and businesses to manage and receive international payments. It provides users with global bank accounts, low-cost currency conversion, and automated compliance documentation like FIRA and GST-compliant invoices.
+
 This plan outlines the development milestones for creating a functional, local-only replica of the Skydo platform. The primary goal is to build and test the complete end-to-end application logic without any reliance on external, third-party services like AWS, Stripe, or containerization platforms like Docker.
 
 All external services will be simulated with mock implementations within the backend.
+## 2. Core Features to Replicate
 
-## 2. Core Features
-The core features remain the same as the original plan:
-- User Authentication
-- Client & Invoice Management
-- Payment Processing (via a mock service)
-- Transaction Tracking
-- Document Generation (FIRA & Invoices)
-- User Dashboard
+- **User Authentication:** Secure registration and login for businesses/freelancers.
+- **Client Management:** Ability for users to add, view, and manage their international clients.
+- **Multi-Currency Accounts:** Integration with a service to provide users with virtual bank accounts in different currencies (e.g., USD, EUR, GBP).
+- **Invoice Generation:** Create, manage, and send GST-compliant invoices to clients.
+- **Payment Processing:** Receive international payments from clients.
+- **Transaction Tracking:** Real-time tracking of payment status.
+- **FIRA Generation:** Automated generation of Foreign Inward Remittance Advice (FIRA) documents for compliance.
+- **Dashboard:** A central dashboard for users to view their account balances, recent transactions, and key metrics.
 
 ## 3. Local-Only Technology Stack
 
