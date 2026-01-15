@@ -98,6 +98,76 @@ This section summarizes the planning and preparation phase of the project.
 
 ---
 
-## 2. Work Left (Implementation & QA)
+## Phase 2: V1 Implementation (Local-In, Local-Out)
+The following V1 modules implement the "Local-In, Local-Out" treasury architecture:
 
-**All modules are completed.** The application is ready for final review.
+### 2.1. Module 6: Virtual Accounts & Schema Updates
+- [x] **Backend:**
+  - [x] Create `VirtualAccount` model.
+  - [x] Update `Transaction` model with FX fields.
+  - [x] Implement auto-provisioning on registration.
+  - [x] Create `GET /users/me/virtual-accounts` endpoint.
+- [x] **Frontend:**
+  - [x] Display Virtual Accounts on Dashboard.
+- [x] **QA:**
+  - [x] Verify VA auto-provisioning.
+  - [x] Verify schema updates.
+
+### 2.2. Module 7: Treasury & FX Engine
+- [x] **Backend:**
+  - [x] Implement `services/fx_engine.py`.
+  - [x] Implement `get_mid_market_rate()` and `calculate_payout()`.
+  - [x] Write unit tests for FX calculations.
+- [x] **QA:**
+  - [x] Verify FX rate retrieval.
+  - [x] Verify payout formula accuracy.
+
+### 2.3. Module 8: Webhook Collection & Settlement
+- [x] **Backend:**
+  - [x] Create `routers/webhooks.py` with `POST /webhooks/payment-received`.
+  - [x] Update mock payments to use webhook flow.
+  - [x] Implement reconciliation logic.
+  - [x] Implement **Settlement Layer** (`/process-settlements`) for local payouts.
+- [x] **Frontend:**
+  - [x] Update payment simulation to pass realistic sender name ("Global Services LLC").
+  - [x] Display FX breakdown on invoice detail page.
+  - [x] Update FIRA generation with FX data.
+  - [x] Implement real-time polling for payment status updates.
+  - [x] Add **Settlement Banner** to Dashboard for processing local payouts.
+- [x] **QA:**
+  - [x] Verify webhook endpoint.
+  - [x] Verify end-to-end payment flow with FX.
+  - [x] Verify failed payment handling.
+  - [x] Verify local settlement (PROCESSING -> SETTLED) flow.
+
+---
+
+## Phase 3: Multi-Currency & Compliance
+This phase expands the platform to support global corridors and regulatory requirements.
+
+### 3.1. Multi-Currency Support
+- [x] **Backend:**
+  - [x] Expand `VirtualAccount` provisioning to support EUR and GBP.
+  - [x] Add `POST /users/me/virtual-accounts` for on-demand account opening.
+  - [x] Update `Invoice` model to support multi-currency billing.
+  - [x] Update FX Engine to handle EUR/GBP to INR conversion logic.
+- [x] **Frontend:**
+  - [x] Implement "Open New Account" UI for EUR/GBP on Dashboard.
+  - [x] Add currency selector to Invoice Creation flow.
+  - [x] Update all UI views (Invoice Detail, Public Payment) to display correct currency symbols (€, £, $).
+- [x] **QA:**
+  - [x] Verify multi-currency VA provisioning.
+  - [x] Verify end-to-end payment flow for EUR and GBP invoices.
+  - [x] Verify PDF generation with correct currency formatting.
+
+### 3.2. Business Profile & GST Compliance
+- [x] **Backend:**
+  - [x] Update `User` model to include business details (Name, GSTIN, Address).
+  - [x] Create `PUT /users/me/profile` endpoint.
+- [x] **Frontend:**
+  - [x] Build Business Profile settings page.
+- [x] **Compliance:**
+  - [x] Update Invoice PDF with GSTIN and "Export under LUT" declaration.
+
+
+
