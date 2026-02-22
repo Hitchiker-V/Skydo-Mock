@@ -14,8 +14,12 @@ def init_db():
     try:
         demo_email = "demo@skydo.com"
         print(f"Seeding demo user: {demo_email}")
-        demo_user = schemas.UserCreate(email=demo_email, password="password123")
-        crud.create_user(db, demo_user)
+        demo_user_schema = schemas.UserCreate(email=demo_email, password="password123")
+        new_user = crud.create_user(db, demo_user_schema)
+        
+        # Auto-provision USD account for demo user
+        crud.provision_default_virtual_account(db, new_user.id)
+        
         print("Database initialization complete.")
     except Exception as e:
         print(f"Error seeding database: {e}")

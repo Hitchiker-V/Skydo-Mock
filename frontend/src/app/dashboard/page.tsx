@@ -87,7 +87,7 @@ export default function DashboardPage() {
 
   const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
-  const availableCurrencies = ['EUR', 'GBP'].filter(
+  const availableCurrencies = ['USD', 'EUR', 'GBP'].filter(
     curr => !virtualAccounts.some(va => va.currency === curr)
   );
 
