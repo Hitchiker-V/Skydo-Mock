@@ -24,3 +24,8 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Force dark text inside inputs/textareas to prevent white-on-white in dark mode */
+input, select, textarea {
+  color: #171717 !important;
+}
