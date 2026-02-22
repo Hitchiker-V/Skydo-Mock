@@ -96,7 +96,7 @@ export default function DashboardPage() {
       <div className="py-10">
         <header>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h1 className="text-3xl font-bold leading-tight text-gray-900">Dashboard</h1>
+            <h1 className="text-3xl font-bold leading-tight text-black">Dashboard</h1>
           </div>
         </header>
         <main>
@@ -129,7 +129,7 @@ export default function DashboardPage() {
             {/* Virtual Accounts Section */}
             <div className="mt-8">
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-lg font-medium text-gray-900">Your Virtual Accounts</h2>
+                <h2 className="text-lg font-medium text-black">Your Virtual Accounts</h2>
                 <div className="flex space-x-2">
                   {availableCurrencies.map(curr => (
                     <button
@@ -216,7 +216,7 @@ export default function DashboardPage() {
             <div className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-2">
               {/* Monthly Revenue */}
               <div className="bg-white shadow rounded-lg p-6">
-                <h3 className="text-lg leading-6 font-medium text-gray-900 mb-4">Monthly Revenue</h3>
+                <h3 className="text-lg leading-6 font-medium text-black mb-4">Monthly Revenue</h3>
                 <div className="h-64">
                   <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={data.monthly_revenue}>
@@ -232,7 +232,7 @@ export default function DashboardPage() {
 
               {/* Client Breakdown */}
               <div className="bg-white shadow rounded-lg p-6">
-                <h3 className="text-lg leading-6 font-medium text-gray-900 mb-4">Revenue by Client</h3>
+                <h3 className="text-lg leading-6 font-medium text-black mb-4">Revenue by Client</h3>
                 <div className="h-64">
                   <ResponsiveContainer width="100%" height="100%">
                     <PieChart>

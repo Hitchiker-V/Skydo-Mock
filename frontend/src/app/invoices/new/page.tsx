@@ -74,7 +74,7 @@ export default function NewInvoicePage() {
         <div className="min-h-screen bg-gray-100 p-8">
             <div className="max-w-3xl mx-auto bg-white rounded-lg shadow-md p-6">
                 <div className="flex justify-between items-center mb-6">
-                    <h1 className="text-2xl font-bold">Create New Invoice</h1>
+                    <h1 className="text-2xl font-bold text-black">Create New Invoice</h1>
                     <button onClick={() => router.back()} className="text-sm text-indigo-600 hover:text-indigo-900">
                         &larr; Back
                     </button>

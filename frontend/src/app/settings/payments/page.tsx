@@ -59,7 +59,7 @@ export default function PaymentSettingsPage() {
             <div className="max-w-3xl mx-auto bg-white rounded-lg shadow-md overflow-hidden">
                 <div className="p-6 border-b border-gray-200">
                     <div className="flex justify-between items-center">
-                        <h1 className="text-2xl font-bold text-gray-900">Payment Settings</h1>
+                        <h1 className="text-2xl font-bold text-black">Payment Settings</h1>
                         <button onClick={() => router.back()} className="text-sm text-indigo-600 hover:text-indigo-900">
                             &larr; Back
                         </button>
@@ -87,7 +87,7 @@ export default function PaymentSettingsPage() {
                             <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
                             </svg>
-                            <h3 className="mt-2 text-sm font-medium text-gray-900">No Payment Account Connected</h3>
+                            <h3 className="mt-2 text-sm font-medium text-black">No Payment Account Connected</h3>
                             <p className="mt-1 text-sm text-gray-500">Connect your account to start receiving international payments.</p>
                             <div className="mt-6">
                                 <button

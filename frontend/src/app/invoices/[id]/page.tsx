@@ -105,7 +105,7 @@ export default function InvoiceDetailPage() {
                     <div className="flex justify-between items-start">
                         <div>
                             <div className="flex justify-between items-center w-full">
-                                <h1 className="text-3xl font-bold text-gray-900">Invoice #{invoice.id}</h1>
+                                <h1 className="text-3xl font-bold text-black">Invoice #{invoice.id}</h1>
                                 <button onClick={() => router.back()} className="text-sm text-indigo-600 hover:text-indigo-900">
                                     &larr; Back
                                 </button>

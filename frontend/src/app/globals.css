@@ -26,6 +26,18 @@ body {
 }
 
 /* Force dark text inside inputs/textareas to prevent white-on-white in dark mode */
-input, select, textarea {
+input,
+select,
+textarea {
   color: #171717 !important;
+}
+
+/* Force dark color for all headings */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: #000000 !important;
 }

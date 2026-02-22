@@ -49,7 +49,7 @@ export default function ClientsPage() {
         <div className="min-h-screen bg-gray-100 p-8">
             <div className="max-w-7xl mx-auto">
                 <div className="flex justify-between items-center mb-6">
-                    <h1 className="text-2xl font-bold text-gray-900">Clients</h1>
+                    <h1 className="text-2xl font-bold text-black">Clients</h1>
                     <Link href="/clients/new" className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700">
                         New Client
                     </Link>
