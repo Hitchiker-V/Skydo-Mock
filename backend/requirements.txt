@@ -5,3 +5,5 @@ psycopg2-binary
 passlib[bcrypt]
 python-jose[cryptography]
 gunicorn
+python-multipart
+reportlab
