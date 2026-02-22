@@ -10,7 +10,6 @@ RUN pip install gunicorn
 
 COPY . .
 
-# Environment variable with a fallback to local for safety
-ENV DATABASE_URL=postgresql://localhost/skydo_local
+# Railway will provide the $PORT and SQLALCHEMY_DATABASE_URL variables automatically
 
 CMD ["sh", "-c", "gunicorn -w 4 -k uvicorn.workers.UvicornWorker main:app --bind 0.0.0.0:$PORT"]
