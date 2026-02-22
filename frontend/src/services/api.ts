@@ -1,7 +1,9 @@
 import axios from 'axios';
 
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+
 const api = axios.create({
-  baseURL: 'http://localhost:8000',
+  baseURL: API_BASE_URL,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -87,7 +89,7 @@ export const getDashboardData = async () => {
 
 export const downloadInvoicePDF = async (invoiceId: number) => {
   const token = localStorage.getItem('token');
-  const response = await fetch(`http://localhost:8000/documents/invoices/${invoiceId}/download`, {
+  const response = await fetch(`${API_BASE_URL}/documents/invoices/${invoiceId}/download`, {
     headers: { Authorization: `Bearer ${token}` },
   });
   if (!response.ok) throw new Error('Download failed');
@@ -96,7 +98,7 @@ export const downloadInvoicePDF = async (invoiceId: number) => {
 
 export const downloadFiraPDF = async (invoiceId: number) => {
   const token = localStorage.getItem('token');
-  const response = await fetch(`http://localhost:8000/documents/invoices/${invoiceId}/fira`, {
+  const response = await fetch(`${API_BASE_URL}/documents/invoices/${invoiceId}/fira`, {
     headers: { Authorization: `Bearer ${token}` },
   });
   if (!response.ok) throw new Error('Download failed');
