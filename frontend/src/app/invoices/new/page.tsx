@@ -181,7 +181,7 @@ export default function NewInvoicePage() {
                     </div>
 
                     <div className="border-t pt-4">
-                        <div className="flex justify-end text-xl font-bold">
+                        <div className="flex justify-end text-xl font-bold text-black">
                             Total: ${calculateTotal().toFixed(2)}
                         </div>
                     </div>
