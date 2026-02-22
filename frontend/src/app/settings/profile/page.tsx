@@ -67,7 +67,7 @@ export default function ProfileSettingsPage() {
                             value={businessName}
                             onChange={(e) => setBusinessName(e.target.value)}
                             placeholder="e.g. Acme Services Pvt Ltd"
-                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-gray-900"
                         />
                     </div>
 
@@ -79,7 +79,7 @@ export default function ProfileSettingsPage() {
                             value={gstin}
                             onChange={(e) => setGstin(e.target.value)}
                             placeholder="e.g. 27AAAAA0000A1Z5"
-                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-gray-900"
                         />
                         <p className="mt-1 text-xs text-gray-500">Required for GST-compliant export invoices.</p>
                     </div>
@@ -92,7 +92,7 @@ export default function ProfileSettingsPage() {
                             value={businessAddress}
                             onChange={(e) => setBusinessAddress(e.target.value)}
                             placeholder="Full address including city, state, and pincode"
-                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-gray-900"
                         />
                     </div>
 

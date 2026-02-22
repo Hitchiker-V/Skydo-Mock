@@ -166,7 +166,7 @@ export default function InvoiceDetailPage() {
                             type="text"
                             readOnly
                             value={`${typeof window !== 'undefined' ? window.location.origin : ''}/pay/${invoice.payment_link_id}`}
-                            className="flex-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2 border"
+                            className="flex-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2 border text-gray-900"
                         />
                         <button
                             onClick={() => {

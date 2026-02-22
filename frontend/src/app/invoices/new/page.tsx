@@ -82,7 +82,7 @@ export default function NewInvoicePage() {
                                 required
                                 value={clientId}
                                 onChange={(e) => setClientId(e.target.value)}
-                                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-gray-900"
                             >
                                 <option value="">Select a client</option>
                                 {clients.map((client) => (
@@ -96,7 +96,7 @@ export default function NewInvoicePage() {
                                 required
                                 value={currency}
                                 onChange={(e) => setCurrency(e.target.value)}
-                                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-gray-900"
                             >
                                 <option value="USD">USD ($)</option>
                                 <option value="EUR">EUR (€)</option>
@@ -110,7 +110,7 @@ export default function NewInvoicePage() {
                                 required
                                 value={dueDate}
                                 onChange={(e) => setDueDate(e.target.value)}
-                                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-gray-900"
                             />
                         </div>
                     </div>
@@ -137,7 +137,7 @@ export default function NewInvoicePage() {
                                             required
                                             value={item.description}
                                             onChange={(e) => handleItemChange(index, 'description', e.target.value)}
-                                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-gray-900"
                                         />
                                     </div>
                                     <div className="w-24">
@@ -148,7 +148,7 @@ export default function NewInvoicePage() {
                                             min="1"
                                             value={item.quantity}
                                             onChange={(e) => handleItemChange(index, 'quantity', parseInt(e.target.value))}
-                                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-gray-900"
                                         />
                                     </div>
                                     <div className="w-32">
@@ -160,7 +160,7 @@ export default function NewInvoicePage() {
                                             step="0.01"
                                             value={item.unit_price}
                                             onChange={(e) => handleItemChange(index, 'unit_price', parseFloat(e.target.value))}
-                                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-gray-900"
                                         />
                                     </div>
                                     <button
