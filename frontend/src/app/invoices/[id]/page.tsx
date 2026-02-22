@@ -221,8 +221,8 @@ export default function InvoiceDetailPage() {
                         </tbody>
                         <tfoot>
                             <tr>
-                                <td className="pt-4 text-right text-sm font-medium text-gray-500">Total Amount</td>
-                                <td className="pt-4 text-right text-xl font-bold text-gray-900">{getCurrencySymbol(invoice.currency)}{invoice.total_amount}</td>
+                                <td className="pt-4 text-right text-sm font-medium text-black">Total Amount</td>
+                                <td className="pt-4 text-right text-xl font-bold text-black">{getCurrencySymbol(invoice.currency)}{invoice.total_amount}</td>
                             </tr>
                         </tfoot>
                     </table>

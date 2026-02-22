@@ -116,8 +116,8 @@ export default function PublicPaymentPage() {
                         </tbody>
                         <tfoot>
                             <tr>
-                                <td colSpan={3} className="pt-4 text-right text-lg font-bold text-gray-900">Total Due</td>
-                                <td className="pt-4 text-right text-2xl font-bold text-indigo-600">{getCurrencySymbol(invoice.currency)}{invoice.total_amount}</td>
+                                <td colSpan={3} className="pt-4 text-right text-lg font-bold text-black">Total Due</td>
+                                <td className="pt-4 text-right text-2xl font-bold text-black">{getCurrencySymbol(invoice.currency)}{invoice.total_amount}</td>
                             </tr>
                         </tfoot>
                     </table>

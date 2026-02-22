@@ -195,19 +195,19 @@ export default function DashboardPage() {
               <div className="bg-white overflow-hidden shadow rounded-lg">
                 <div className="px-4 py-5 sm:p-6">
                   <dt className="text-sm font-medium text-gray-500 truncate">Total Revenue</dt>
-                  <dd className="mt-1 text-3xl font-semibold text-gray-900">${data.kpis.total_revenue.toFixed(2)}</dd>
+                  <dd className="mt-1 text-3xl font-semibold text-black">${data.kpis.total_revenue.toFixed(2)}</dd>
                 </div>
               </div>
               <div className="bg-white overflow-hidden shadow rounded-lg">
                 <div className="px-4 py-5 sm:p-6">
                   <dt className="text-sm font-medium text-gray-500 truncate">Outstanding Amount</dt>
-                  <dd className="mt-1 text-3xl font-semibold text-gray-900">${data.kpis.outstanding_amount.toFixed(2)}</dd>
+                  <dd className="mt-1 text-3xl font-semibold text-black">${data.kpis.outstanding_amount.toFixed(2)}</dd>
                 </div>
               </div>
               <div className="bg-white overflow-hidden shadow rounded-lg">
                 <div className="px-4 py-5 sm:p-6">
                   <dt className="text-sm font-medium text-gray-500 truncate">Total Invoices</dt>
-                  <dd className="mt-1 text-3xl font-semibold text-gray-900">{data.kpis.total_invoices}</dd>
+                  <dd className="mt-1 text-3xl font-semibold text-black">{data.kpis.total_invoices}</dd>
                 </div>
               </div>
             </div>
