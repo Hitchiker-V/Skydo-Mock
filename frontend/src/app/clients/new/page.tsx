@@ -23,7 +23,12 @@ export default function NewClientPage() {
     return (
         <div className="min-h-screen bg-gray-100 p-8">
             <div className="max-w-md mx-auto bg-white rounded-lg shadow-md p-6">
-                <h1 className="text-2xl font-bold mb-6">Add New Client</h1>
+                <div className="flex justify-between items-center mb-6">
+                    <h1 className="text-2xl font-bold">Add New Client</h1>
+                    <button onClick={() => router.back()} className="text-sm text-indigo-600 hover:text-indigo-900">
+                        &larr; Back
+                    </button>
+                </div>
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
                         <label className="block text-sm font-medium text-gray-700">Name</label>

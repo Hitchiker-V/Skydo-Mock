@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from 'react';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { getInvoice, downloadInvoicePDF, downloadFiraPDF, getInvoiceTransaction } from '@/services/api';
 import Link from 'next/link';
 
@@ -53,6 +53,7 @@ interface Transaction {
 
 export default function InvoiceDetailPage() {
     const { id } = useParams();
+    const router = useRouter();
     const [invoice, setInvoice] = useState<Invoice | null>(null);
     const [transaction, setTransaction] = useState<Transaction | null>(null);
     const [loading, setLoading] = useState(true);
@@ -103,7 +104,12 @@ export default function InvoiceDetailPage() {
                 <div className="p-8 border-b border-gray-200">
                     <div className="flex justify-between items-start">
                         <div>
-                            <h1 className="text-3xl font-bold text-gray-900">Invoice #{invoice.id}</h1>
+                            <div className="flex justify-between items-center w-full">
+                                <h1 className="text-3xl font-bold text-gray-900">Invoice #{invoice.id}</h1>
+                                <button onClick={() => router.back()} className="text-sm text-indigo-600 hover:text-indigo-900">
+                                    &larr; Back
+                                </button>
+                            </div>
                             <p className="text-sm text-gray-500 mt-1">Due Date: {invoice.due_date} ({invoice.currency})</p>
                             <div className="mt-4 flex space-x-3">
                                 <button

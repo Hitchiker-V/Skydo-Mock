@@ -53,7 +53,12 @@ export default function ProfileSettingsPage() {
     return (
         <div className="min-h-screen bg-gray-100 p-8">
             <div className="max-w-2xl mx-auto bg-white rounded-lg shadow-md p-8">
-                <h1 className="text-2xl font-bold mb-6">Business Profile Settings</h1>
+                <div className="flex justify-between items-center mb-6">
+                    <h1 className="text-2xl font-bold">Business Profile Settings</h1>
+                    <button onClick={() => router.back()} className="text-sm text-indigo-600 hover:text-indigo-900">
+                        &larr; Back
+                    </button>
+                </div>
                 <p className="text-gray-600 mb-8">
                     Update your business details to ensure your invoices are GST-compliant and professional.
                 </p>

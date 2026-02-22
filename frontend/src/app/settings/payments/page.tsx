@@ -58,7 +58,12 @@ export default function PaymentSettingsPage() {
         <div className="min-h-screen bg-gray-100 p-8">
             <div className="max-w-3xl mx-auto bg-white rounded-lg shadow-md overflow-hidden">
                 <div className="p-6 border-b border-gray-200">
-                    <h1 className="text-2xl font-bold text-gray-900">Payment Settings</h1>
+                    <div className="flex justify-between items-center">
+                        <h1 className="text-2xl font-bold text-gray-900">Payment Settings</h1>
+                        <button onClick={() => router.back()} className="text-sm text-indigo-600 hover:text-indigo-900">
+                            &larr; Back
+                        </button>
+                    </div>
                     <p className="mt-1 text-sm text-gray-500">Manage your payment provider connection.</p>
                 </div>
 

@@ -73,7 +73,12 @@ export default function NewInvoicePage() {
     return (
         <div className="min-h-screen bg-gray-100 p-8">
             <div className="max-w-3xl mx-auto bg-white rounded-lg shadow-md p-6">
-                <h1 className="text-2xl font-bold mb-6">Create New Invoice</h1>
+                <div className="flex justify-between items-center mb-6">
+                    <h1 className="text-2xl font-bold">Create New Invoice</h1>
+                    <button onClick={() => router.back()} className="text-sm text-indigo-600 hover:text-indigo-900">
+                        &larr; Back
+                    </button>
+                </div>
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div className="grid grid-cols-3 gap-6">
                         <div>
